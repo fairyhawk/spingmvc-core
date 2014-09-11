@@ -1,4 +1,5 @@
-spingmvc-core
-=============
+mvc-core
+======
 
-spingmvc-core for eduplatform
+自己的springmvc项目中使用的基础类.
+逐步完善。
