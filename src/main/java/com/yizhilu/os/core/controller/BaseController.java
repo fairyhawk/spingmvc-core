@@ -73,8 +73,7 @@ public class BaseController {
     @Setter
     protected String errmsg;// 错误信息
 
-    protected static final String ERROR = "/error/error";// 前台错误信息
-    protected static final String ADMIN_ERROR = "/admin/error/error";// 后台错误信息
+    protected static final String ERROR = "/common/error";// 前台错误信息
     protected static String ADMIN_SUCCESS = "redirect:/admin/sys/success";// 后台提交成功
 
     public String getUuid() {
@@ -82,28 +81,7 @@ public class BaseController {
     }
 
     /**
-     * 
-     * 将错误信息放到页面中,后台用
-     * 
-     * @param request
-     * @param e
-     * @return
-     */
-    public String setExceptionRequestAdmin(HttpServletRequest request, Exception e) {
-        StackTraceElement[] messages = e.getStackTrace();
-        if (!ObjectUtils.isNull(messages)) {
-            StringBuffer buffer = new StringBuffer();
-            buffer.append(e.toString()).append("<br/>");
-            for (int i = 0; i < messages.length; i++) {
-                buffer.append(messages[i].toString()).append("<br/>");
-            }
-            request.setAttribute("myexception", buffer.toString());
-        }
-        return ADMIN_ERROR;
-    }
-
-    /**
-     * 将错误信息放到页面中,前台用
+     * 将错误信息放到页面中
      * 
      * @param request
      * @param e
