@@ -88,6 +88,7 @@ public class BaseController {
      * @return
      */
     public String setExceptionRequest(HttpServletRequest request, Exception e) {
+        logger.error(request.getContextPath(),e);
         StackTraceElement[] messages = e.getStackTrace();
         if (!ObjectUtils.isNull(messages)) {
             StringBuffer buffer = new StringBuffer();
