@@ -19,7 +19,7 @@ public class Payment {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static String CreateUrl(String paygateway, String service, String sign_type, String out_trade_no, String input_charset, String partner, String key, String show_url, String body,
-            String total_fee, String payment_type, String seller_email, String subject, String notify_url, String return_url, String paymethod, String defaultbank) {
+            String total_fee, String payment_type, String seller_email, String subject, String notify_url, String return_url, String paymethod, String defaultbank,String extra_common_param) {
         Map params = new HashMap();
         params.put("service", service);
         params.put("partner", partner);
@@ -33,6 +33,7 @@ public class Payment {
         params.put("return_url", return_url);
         params.put("notify_url", notify_url);
         params.put("paymethod", paymethod);
+        params.put("extra_common_param", extra_common_param);
         if (defaultbank != null && !"".equals(defaultbank)) {
             params.put("defaultbank", defaultbank);
         }

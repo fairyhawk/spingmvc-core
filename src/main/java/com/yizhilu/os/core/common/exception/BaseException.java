@@ -26,6 +26,7 @@ public class BaseException extends Exception {
 
     @Override
     public void printStackTrace() {
+        System.out.println("error code:"+code);
         super.printStackTrace();
     }
 
