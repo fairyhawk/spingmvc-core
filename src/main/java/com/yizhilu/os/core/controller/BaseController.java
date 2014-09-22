@@ -203,4 +203,16 @@ public class BaseController {
             }
         }
     }
+    
+    /**
+     * 获取物理路径
+     * @param request
+     * @param path
+     * @return
+     */
+    public  String getRealPath(HttpServletRequest request,String path){
+        return request.getSession().getServletContext().getRealPath(path);
+    }
+    
+            
 }

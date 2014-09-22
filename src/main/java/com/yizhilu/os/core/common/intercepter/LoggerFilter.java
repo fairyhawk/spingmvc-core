@@ -31,21 +31,18 @@ public class LoggerFilter extends HandlerInterceptorAdapter {
     private String[] excludeUrls;
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
-            Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         super.afterCompletion(request, response, handler, ex);
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response,
-            Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         super.postHandle(request, response, handler, modelAndView);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-            Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         // 访问者IP
         String ip = WebUtils.getIpAddr(request);
@@ -59,9 +56,7 @@ public class LoggerFilter extends HandlerInterceptorAdapter {
                 }
             }
         }
-
         StringBuffer buffer = new StringBuffer("");
-
         Enumeration<String> enume = request.getParameterNames();
         while (enume.hasMoreElements()) {
             String key = enume.nextElement();
@@ -71,8 +66,7 @@ public class LoggerFilter extends HandlerInterceptorAdapter {
             }
             buffer.append(key).append("=").append(Arrays.toString(value));
         }
-        logger.info("+++user_access_log,ip=" + ip + ",url=" + path + ",parameter="
-                + buffer);
+        logger.info("+++user_access_log,ip=" + ip + ",url=" + path + ",parameter=" + buffer);
         return true;
 
     }
