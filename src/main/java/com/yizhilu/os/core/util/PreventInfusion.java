@@ -140,4 +140,9 @@ public class PreventInfusion {
         }
         return false;
     }
+    
+    public static boolean issysok(String s){
+        return "1".equalsIgnoreCase(s);
+    }
+    
 }
