@@ -1,6 +1,5 @@
 package com.yizhilu.os.core.util.web;
 
-import java.awt.datatransfer.SystemFlavorMap;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -14,10 +13,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,6 +21,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.yizhilu.os.core.util.Security.PurseSecurityUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.google.gson.JsonObject;
@@ -62,7 +61,6 @@ public class WebUtils {
      * @param response
      * @param key
      * @param value
-     * @param days
      */
     public static void setCookieMinuteDomain(HttpServletResponse response, String key, String value, int minuts, String domain) {
         if (key != null && value != null) {
@@ -84,7 +82,6 @@ public class WebUtils {
      * @param response
      * @param key
      * @param value
-     * @param days
      */
     public static void setCookieSessionTime(HttpServletResponse response, String key, String value) {
         setCookieSessionTime(response, key, value, MYDOMAIN);
@@ -95,8 +92,7 @@ public class WebUtils {
      * 
      * @param response
      * @param key
-     * @param value
-     * @param days
+     * @param domain
      */
     public static void setCookieSessionTime(HttpServletResponse response, String key, String value, String domain) {
 
@@ -155,7 +151,7 @@ public class WebUtils {
      * 得到指定键的值
      * 
      * @param request
-     * @param name
+     * @param key
      *            指定的键
      * @return String 值
      */
@@ -667,4 +663,30 @@ public class WebUtils {
         }
         return s;
     }
+
+    /**
+     *验证项目是否ok
+     * @param  contextPath 项目路径
+     */
+    public static boolean isdomainok(String contextPath,String securityKey,String domiankey){
+        try {
+            if(contextPath.indexOf("127.0")>0 ||contextPath.indexOf("192.168")>0  ){
+                return true;
+            }
+            String dedomaininfo=PurseSecurityUtils.decryption(domiankey,securityKey);
+            Gson gson = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            JsonObject jsonObject  = jsonParser.parse(dedomaininfo).getAsJsonObject();
+            Map<String, String> map = gson.fromJson( jsonObject, new TypeToken<Map<String, String>>() {}.getType());
+            String domain=map.get("domain");
+            if(contextPath.indexOf(domain)<0){
+                System.exit(2);
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
