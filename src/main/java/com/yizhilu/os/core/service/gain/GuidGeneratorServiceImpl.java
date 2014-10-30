@@ -201,21 +201,36 @@ public class GuidGeneratorServiceImpl implements GuidGeneratorService {
     }
 
     /**
-     * 
-     * 根据关键字和长度生成
+     * 根据关键字获得唯一值
+     *
+     * @param prefix
+     * @param append 是否把prefix一起返回
+     * @return
      */
-    public String gainCode(String prefix) {
+    public String gainCode(String prefix,boolean append) {
         // 默认生成，不补长度传参数0
         String no = getSpecialId(prefix, 0);
+        if(append){
+            return prefix+no;
+        }
         return no;
     }
 
     /**
-     * 根据关键字和长度生成
+     * 根据关键字和补充长度
+     *
+     * @param prefix
+     *            关键字
+     * @param length
+     *            补足长度补0
+     * @param append 是否把prefix一起返回
+     * @return
      */
-    @Override
-    public String gainCode(String prefix, int length) {
+    public String gainCode(String prefix, int length,boolean append) {
         String no = getSpecialId(prefix, length);
+        if(append){
+            return prefix+no;
+        }
         return no;
     }
 
@@ -230,7 +245,7 @@ public class GuidGeneratorServiceImpl implements GuidGeneratorService {
      */
     @Override
     public String gainDisCode(String prefix, int length) {
-        String node = gainCode(prefix, length);
+        String node = gainCode(prefix, length,false);
         StringBuffer buffer = new StringBuffer();
         // 返回关键字加时间+唯一值
         buffer.append(prefix).append(DateUtils.formatDate(new Date(), "yyyyMMdd"));

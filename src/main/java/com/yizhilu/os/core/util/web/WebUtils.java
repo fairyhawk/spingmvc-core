@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yizhilu.os.core.util.DateUtils;
 import com.yizhilu.os.core.util.Security.PurseSecurityUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -670,7 +671,7 @@ public class WebUtils {
      */
     public static boolean isdomainok(String contextPath,String securityKey,String domiankey){
         try {
-            if(contextPath.indexOf("127.0")>0 ||contextPath.indexOf("192.168")>0  ){
+            if(contextPath.indexOf("127.0.")>0 ||contextPath.indexOf("192.168.")>0  ){
                 return true;
             }
             String dedomaininfo=PurseSecurityUtils.decryption(domiankey,securityKey);
@@ -682,6 +683,14 @@ public class WebUtils {
             if(contextPath.indexOf(domain)<0){
                 System.exit(2);
                 return false;
+            }
+            String dt =map.get("dt");
+            if(com.yizhilu.os.core.util.StringUtils.isNotEmpty(dt)){
+               Date t = DateUtils.toDate(dt,"yyyy-MM-dd");
+                if(t.compareTo(new Date())<0){
+                  System.exit(3);
+                    return false;
+                }
             }
             return true;
         } catch (Exception e) {

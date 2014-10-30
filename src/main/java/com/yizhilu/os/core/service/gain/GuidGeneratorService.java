@@ -27,10 +27,11 @@ public interface GuidGeneratorService {
     /**
      * 根据关键字获得唯一值
      * 
-     * @param type
+     * @param prefix
+     * @param append 是否把prefix一起返回
      * @return
      */
-    public String gainCode(String prefix);
+    public String gainCode(String prefix,boolean append);
 
     /**
      * 根据关键字和补充长度
@@ -38,10 +39,11 @@ public interface GuidGeneratorService {
      * @param prefix
      *            关键字
      * @param length
-     *            补足长度
+     *            补足长度补0
+      * @param append 是否把prefix一起返回
      * @return
      */
-    public String gainCode(String prefix, int length);
+    public String gainCode(String prefix, int length,boolean append);
 
     /**
      * 获得群组的ID
