@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContextEvent;
 
+import com.yizhilu.os.core.util.web.WebUtils;
 import org.springframework.web.context.ContextLoaderListener;
 
 import com.google.gson.Gson;
@@ -41,15 +42,9 @@ public class InitListener extends ContextLoaderListener {
                     PropertyUtil propertyUtil = PropertyUtil.getInstance("prosecurity");
                     String securitykey = propertyUtil.getProperty("securitykey");
                     String domainkey = propertyUtil.getProperty("domiankey");
-                    String ketstr = PurseSecurityUtils.decryption(domainkey, securitykey);
-                    Gson gson = new Gson();
-                    JsonParser jsonParser = new JsonParser();
-                    JsonObject jsonObject = jsonParser.parse(ketstr).getAsJsonObject();
-                    Map<String, String> mapss = gson.fromJson(jsonObject, new TypeToken<Map<String, String>>() {
-                    }.getType());
-                    if (!"1".equalsIgnoreCase(mapss.get("w"))) {
-                        System.exit(0);
-                    }
+                    PropertyUtil propertyUtil2 = PropertyUtil.getInstance("project");
+                    String contextPath=propertyUtil2.getProperty("contextPath");
+                    WebUtils.isdomainok(contextPath,securitykey,domainkey);
                 } catch (Exception e) {
                 }
                 super.contextInitialized(servletContextEvent);
