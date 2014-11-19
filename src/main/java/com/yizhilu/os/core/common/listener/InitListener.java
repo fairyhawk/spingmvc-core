@@ -32,7 +32,7 @@ public class InitListener extends ContextLoaderListener {
         try{
             PropertyUtil propertyUtil = PropertyUtil.getInstance("project");
             String contextPath = propertyUtil.getProperty("contextPath");
-            if(contextPath.indexOf("127.0.")>0 ||contextPath.indexOf("192.168.")>0  ){
+            if(contextPath.indexOf("127.0.")>-1 ||contextPath.indexOf("192.168.")>-1  ){
                 super.contextInitialized(servletContextEvent);
                 return;
             }

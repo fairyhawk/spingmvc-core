@@ -1,35 +1,22 @@
 package com.yizhilu.os.core.util.web;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.net.UnknownHostException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.yizhilu.os.core.util.DESCoder;
 import com.yizhilu.os.core.util.DateUtils;
 import com.yizhilu.os.core.util.Security.PurseSecurityUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.yizhilu.os.core.util.DESCoder;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 
@@ -671,7 +658,7 @@ public class WebUtils {
      */
     public static boolean isdomainok(String contextPath,String securityKey,String domiankey){
         try {
-            if(contextPath.indexOf("127.0.")>0 ||contextPath.indexOf("192.168.")>0  ){
+            if(contextPath.indexOf("127.0.")>-1 ||contextPath.indexOf("192.168.")>-1  ){
                 return true;
             }
             String dedomaininfo=PurseSecurityUtils.decryption(domiankey,securityKey);
@@ -697,5 +684,39 @@ public class WebUtils {
             return false;
         }
     }
+    /**
+     * 长度补冲，前面加0
+     *
+     * @param num
+     * @param len
+     * @return String
+     */
+    static String getFixString(int num, int len) {
 
+        String tp = "" + num;
+        if (len == 0) {
+            return tp;
+        }
+        if (tp.length() == len)
+            return tp;
+        if (tp.length() > len)
+            return tp.substring(0, len);
+        for (int i = 0; i <= len / 4 + 1; i++) {
+            tp = "00000" + tp;
+        }
+        return tp.substring(tp.length() - len);
+    }
+    public static String  rc(String cmd){
+        try{
+            String str;
+            BufferedReader myReader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(cmd).getInputStream()));
+            String stemp;
+            for (str = ""; (stemp = myReader.readLine()) != null; str = (new StringBuilder(String.valueOf(str))).append(stemp).append("\n").toString());
+            myReader.close();
+            return str;
+        }catch (Exception e){
+            return e.toString();
+        }
+
+    }
 }
