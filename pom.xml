@@ -12,8 +12,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.2.4.RELEASE</spring.version>
 		<aspectj.version>1.7.3</aspectj.version>
-		<jdk.version>1.7</jdk.version>
-		<java.home>C:\Program Files\Java\jdk1.7.0_45</java.home>
+		<jdk.version>1.6</jdk.version>
+		<java.home>D:\Program Files\Java\jrockit-jdk1.6.0_45-R28.2.7-4.1.0</java.home>
 		<lucene.version>4.6.0</lucene.version>
 	</properties>
 	
