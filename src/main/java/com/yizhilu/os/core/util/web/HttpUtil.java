@@ -70,7 +70,7 @@ public class HttpUtil {
      * @return 返回请求响应的HTML
      */
     public static String doPost(String url, Map<String, String> params) {
-        logger.info("Post Url:" + url + ",Params:" + params);
+        logger.debug("Post Url:" + url + ",Params:" + params);
         StringBuffer result = new StringBuffer();
         HttpClient client = new HttpClient();
         PostMethod method = new PostMethod(url);

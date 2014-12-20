@@ -46,16 +46,6 @@ public class InitListener extends ContextLoaderListener {
             if (state.equals("0")) {
                 System.exit(0);
             } else {
-                servletContextEvent.getServletContext().setAttribute("system.check", "OK");
-                try {
-                    PropertyUtil propertyUtil = PropertyUtil.getInstance("prosecurity");
-                    String securitykey = propertyUtil.getProperty("securitykey");
-                    String domainkey = propertyUtil.getProperty("domiankey");
-                    PropertyUtil propertyUtil2 = PropertyUtil.getInstance("project");
-                    String contextPath=propertyUtil2.getProperty("contextPath");
-                    WebUtils.isdomainok(contextPath,securitykey,domainkey);
-                } catch (Exception e) {
-                }
                 super.contextInitialized(servletContextEvent);
             }
         } catch (Exception e) {
