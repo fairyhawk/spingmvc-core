@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yizhilu.os.core.controller.MemLoginUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -66,7 +67,7 @@ public class LoggerFilter extends HandlerInterceptorAdapter {
             }
             buffer.append(key).append("=").append(Arrays.toString(value));
         }
-        logger.info("+++user_access_log,ip=" + ip + ",url=" + path + ",parameter=" + buffer);
+        logger.info("+++user_access_log,ip=" + ip + ",uid:"+ MemLoginUtils.getLoginUserId(request)+",url=" + path + ",parameter=" + buffer);
         return true;
 
     }
