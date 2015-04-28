@@ -405,19 +405,24 @@ public class WebUtils {
     // IPUTIL********
 
     public static String getAddressByIP(String ip) {
-        String js = visitWeb("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=" + ip);
-        JsonParser jsonParser = new JsonParser();
-        js=js.trim();
-        JsonObject jo = jsonParser.parse(js.substring(21,js.length()-1)).getAsJsonObject();
-        String province = "";
-        String city = "";
         try {
-            province = jo.get("province") == null ? "" : URLDecoder.decode(jo.get("province").toString(), "UTF-8");
-            city = jo.get("city") == null ? "" : URLDecoder.decode(jo.get("city").toString(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
+            String js = visitWeb("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=" + ip);
+            JsonParser jsonParser = new JsonParser();
+            js=js.trim();
+            JsonObject jo = jsonParser.parse(js.substring(21,js.length()-1)).getAsJsonObject();
+            String province = "";
+            String city = "";
+            try {
+                province = jo.get("province") == null ? "" : URLDecoder.decode(jo.get("province").toString(), "UTF-8");
+                city = jo.get("city") == null ? "" : URLDecoder.decode(jo.get("city").toString(), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return (province.equals("") || province.equals(city)) ? city : province + " " + city;
+        }catch (Exception e){
             e.printStackTrace();
+            return  "";
         }
-        return (province.equals("") || province.equals(city)) ? city : province + " " + city;
     }
 
     public static String visitWeb(String urlStr) {
