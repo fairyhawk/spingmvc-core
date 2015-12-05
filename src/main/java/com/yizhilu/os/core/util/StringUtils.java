@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 /**
  * 
- * @ClassName com.supergenius.sns.util.StringUtils
+ * @ClassName com.yizhilu.os.core.util.StringUtils
  * @description 字符串工具类
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-13 下午2:23:56

@@ -2,7 +2,7 @@ package com.yizhilu.os.core.service.gain;
 
 /**
  * 
- * @ClassName com.supergenius.sns.service.common.GuidGeneratorService
+ * @ClassName com.yizhilu.os.core.service.common.GuidGeneratorService
  * @description
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-18 下午7:37:44

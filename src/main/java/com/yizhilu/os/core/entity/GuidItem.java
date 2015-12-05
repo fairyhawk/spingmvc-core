@@ -7,7 +7,7 @@ import lombok.Setter;
 
 /**
  * 
- * @ClassName com.supergenius.sns.common.entity.GuidItem
+ * @ClassName com.yizhilu.os.core.common.entity.GuidItem
  * @description 用到唯一字段时生成
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-18 下午8:16:44

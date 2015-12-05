@@ -20,7 +20,7 @@ import com.yizhilu.os.core.util.DateUtils;
 
 /**
  * 
- * @ClassName com.supergenius.sns.service.impl.common.GuidGeneratorServiceImpl
+ * @ClassName com.yizhilu.os.core.service.impl.common.GuidGeneratorServiceImpl
  * @description
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-18 下午7:37:53

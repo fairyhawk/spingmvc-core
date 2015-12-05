@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 
 /**
  * 
- * @ClassName com.supergenius.sns.util.MD5
+ * @ClassName com.yizhilu.os.core.util.MD5
  * @description MD5加密
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-13 下午2:20:50

@@ -2,7 +2,7 @@ package com.yizhilu.os.core.util;
 
 /**
  * 
- * @ClassName com.supergenius.sns.util.EnumUtil
+ * @ClassName com.yizhilu.os.core.util.EnumUtil
  * @description EnumUtil工具类转换字符串
  * @author : Administrator
  * @Create Date : 2013-12-13 下午2:17:54

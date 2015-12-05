@@ -1,12 +1,14 @@
 package com.yizhilu.os.core.service.cache;
 
+import net.spy.memcached.MemcachedClient;
+
 import java.util.Map;
 import java.util.Set;
 
 /**
  * 
  * @ClassName MemCacheService
- * @package com.supergenius.sns.common.cache
+ * @package com.yizhilu.os.core.common.cache
  * @description
  * @author liuqinggang
  * @Create Date: 2013-5-25 下午5:37:27
@@ -53,4 +55,10 @@ public interface MemCacheService {
      * @return
      */
     boolean set(String key, Object value, int exp);
+
+    /**
+     * 获取原生的MemcachedClient对象
+     * @return
+     */
+    MemcachedClient getMemcachedClient();
 }

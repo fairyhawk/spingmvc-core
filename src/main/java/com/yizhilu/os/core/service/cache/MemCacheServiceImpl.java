@@ -9,10 +9,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.yizhilu.os.core.util.ObjectUtils;
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.DefaultConnectionFactory;
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.OperationFactory;
+import net.spy.memcached.protocol.binary.BinaryOperationFactory;
 import net.spy.memcached.transcoders.SerializingTranscoder;
 
 import org.apache.commons.logging.Log;
@@ -23,7 +25,7 @@ import com.yizhilu.os.core.util.PropertiesReader;
 /**
  * 
  * @ClassName MemCacheServiceImpl
- * @package com.supergenius.sns.common.cache
+ * @package com.yizhilu.os.core.common.cache
  * @description
  * @author liuqinggang
  * @Create Date: 2013-5-25 下午5:37:39
@@ -36,8 +38,6 @@ public class MemCacheServiceImpl implements MemCacheService {
     public static final String CACHE_PROP_FILE = "project";
 
     public static final String ENCODING = "UTF-8";
-
-    public static String isUse = PropertiesReader.getValue(CACHE_PROP_FILE, "isUse");
 
     // 日志
     private static Log log = LogFactory.getLog(MemCacheServiceImpl.class);
@@ -106,11 +106,7 @@ public class MemCacheServiceImpl implements MemCacheService {
     }
 
     public static MemCacheService getInstance() {
-        if ("1".equalsIgnoreCase(isUse)) {
-            return getInstance(CACHE_PROP_FILE);
-        } else {
-            return null;
-        }
+        return getInstance(CACHE_PROP_FILE);
     }
 
     /**
@@ -151,10 +147,13 @@ public class MemCacheServiceImpl implements MemCacheService {
                 public int getReadBufSize() {
                     return readBufSize;
                 }
-
-                @Override
+                //默认返回new AsciiOperationFactory();
+               /* @Override
                 public OperationFactory getOperationFactory() {
                     return super.getOperationFactory();
+                }*/
+                public OperationFactory getOperationFactory() {
+                    return new BinaryOperationFactory();
                 }
 
                 @Override
@@ -181,10 +180,13 @@ public class MemCacheServiceImpl implements MemCacheService {
                     return readBufSize;
                 }
 
-                @Override
+               /* @Override
                 public OperationFactory getOperationFactory() {
                     return super.getOperationFactory();
-                }
+                }*/
+               public OperationFactory getOperationFactory() {
+                   return new BinaryOperationFactory();
+               }
 
                 @Override
                 public int getOpQueueLen() {
@@ -545,5 +547,15 @@ public class MemCacheServiceImpl implements MemCacheService {
         }
         log.info("MemCacheServiceImpl.set,key=" + key + ",value=" + value.getClass());
         return ret;
+    }
+    /**
+     * 获取原生的MemcachedClient对象
+     * @return
+     */
+    public MemcachedClient getMemcachedClient() {
+        if (ObjectUtils.isNotNull(mc1)) {
+            return mc1;
+        }
+        return mc2;
     }
 }

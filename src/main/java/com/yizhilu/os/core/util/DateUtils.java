@@ -12,7 +12,7 @@ import java.util.Locale;
 
 /**
  * 
- * @ClassName com.supergenius.sns.util.DateUtils
+ * @ClassName com.yizhilu.os.core.util.DateUtils
  * @description 日期格式化工具类
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-13 下午2:20:11

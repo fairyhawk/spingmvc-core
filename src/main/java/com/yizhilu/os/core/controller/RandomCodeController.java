@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 
- * @ClassName com.supergenius.sns.action.common.RandomCodeAction
+ * @ClassName com.yizhilu.os.core.action.common.RandomCodeAction
  * @description 验证码生成工具类
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-13 下午2:38:55

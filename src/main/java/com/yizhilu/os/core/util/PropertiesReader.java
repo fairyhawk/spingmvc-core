@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 
 
 /**
- * @ClassName com.supergenius.sns.util.PropertiesReader
+ * @ClassName com.yizhilu.os.core.util.PropertiesReader
  * @description 获取配置文件
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-13 下午2:21:13

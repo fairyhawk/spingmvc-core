@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 /**
- * @ClassName com.supergenius.sns.util.Threads
+ * @ClassName com.yizhilu.os.core.util.Threads
  * @description
  * @author : Administrator
  * @Create Date : 2013-12-11 下午4:51:15

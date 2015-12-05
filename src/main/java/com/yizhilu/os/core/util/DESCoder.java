@@ -16,7 +16,7 @@ import sun.misc.BASE64Encoder;
 
 /**
  * 
- * @ClassName com.supergenius.sns.util.DESCoder
+ * @ClassName com.yizhilu.os.core.util.DESCoder
  * @description DESCoder加密
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-13 下午2:22:38

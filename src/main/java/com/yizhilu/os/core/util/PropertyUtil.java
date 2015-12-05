@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 /**
  * 
  * @ClassName PropertyUtil
- * @package com.supergenius.sns.util
+ * @package com.yizhilu.os.core.util
  * @description
  * @author liuqinggang
  * @Create Date: 2013-2-26 下午06:52:31

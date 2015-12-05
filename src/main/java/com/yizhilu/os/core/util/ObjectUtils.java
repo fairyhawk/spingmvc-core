@@ -14,7 +14,7 @@ import java.util.Set;
 
 /**
  * 
- * @ClassName com.supergenius.sns.util.ObjectUtils
+ * @ClassName com.yizhilu.os.core.util.ObjectUtils
  * @description 判断对象是否为空
  * @author : liuqinggang 305050016@qq.com
  * @Create Date : 2013-12-13 下午2:18:24

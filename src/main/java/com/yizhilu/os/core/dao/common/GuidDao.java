@@ -6,7 +6,7 @@ import com.yizhilu.os.core.entity.GuidItem;
 
 /**
  * 
- * @ClassName com.supergenius.sns.dao.common.GuidDao
+ * @ClassName com.yizhilu.os.core.dao.common.GuidDao
  * @description
  * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-18 下午7:37:29

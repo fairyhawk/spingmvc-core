@@ -1,17 +1,22 @@
 package com.yizhilu.os.core.service.cache;
 
+import com.yizhilu.os.core.util.ObjectUtils;
+import net.spy.memcached.MemcachedClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 import java.util.Set;
 
 /**
  * 
- * @ClassName com.supergenius.sns.service.common.MemCache
+ * @ClassName com.yizhilu.os.core.service.common.MemCache
  * @description memcache操作类
  * @author : qinggang.liu voo@163.com
  * @Create Date : 2013-12-25 上午11:55:52
  */
 public class MemCache {
-
+    private Logger logger= LoggerFactory.getLogger(MemCache.class);
     private static MemCacheService memCacheService = null;
     private static MemCache memCache = new MemCache();
 
@@ -35,7 +40,7 @@ public class MemCache {
                 return memCacheService.get(key);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e, key);
         }
         return null;
     };
@@ -53,7 +58,7 @@ public class MemCache {
                 return memCacheService.set(key, value);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e, key);
         }
         return false;
     }
@@ -70,7 +75,7 @@ public class MemCache {
                 return memCacheService.getBulk(keys);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e, keys.toString());
         }
         return null;
     }
@@ -87,7 +92,7 @@ public class MemCache {
                 return memCacheService.remove(key);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e, key);
         }
         return false;
     }
@@ -108,9 +113,19 @@ public class MemCache {
                 return memCacheService.set(key, value, exp);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e, key);
         }
         return false;
+    }
+    private void handleException(Exception e, String key) {
+        logger.warn("spymemcached client receive an exception with key:" + key, e);
+    }
+    /**
+     * 获取原生的MemcachedClient对象
+     * @return
+     */
+    public MemcachedClient getMemcachedClient() {
+        return memCacheService.getMemcachedClient();
     }
 
 }
