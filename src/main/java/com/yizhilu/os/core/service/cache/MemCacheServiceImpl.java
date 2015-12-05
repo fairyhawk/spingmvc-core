@@ -10,17 +10,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.yizhilu.os.core.util.ObjectUtils;
-import net.spy.memcached.AddrUtil;
-import net.spy.memcached.DefaultConnectionFactory;
-import net.spy.memcached.MemcachedClient;
-import net.spy.memcached.OperationFactory;
+import net.spy.memcached.*;
 import net.spy.memcached.protocol.binary.BinaryOperationFactory;
 import net.spy.memcached.transcoders.SerializingTranscoder;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.yizhilu.os.core.util.PropertiesReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -40,7 +36,7 @@ public class MemCacheServiceImpl implements MemCacheService {
     public static final String ENCODING = "UTF-8";
 
     // 日志
-    private static Log log = LogFactory.getLog(MemCacheServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(MemCacheServiceImpl.class);
 
     // 返回的实例
     // private static FcCacheService instance = new FcCacheServiceImpl();
@@ -132,7 +128,7 @@ public class MemCacheServiceImpl implements MemCacheService {
                     "opQueueLen"));
             expHour = Integer.parseInt(PropertiesReader.getValue(prop_file, "expHour"));
         } catch (Exception e) {
-            log.error("loading properties fail, use default config!");
+            logger.error("loading properties fail, use default config!");
         }
         // 从配置文件中读取相应的配置信息
         try {
@@ -201,7 +197,7 @@ public class MemCacheServiceImpl implements MemCacheService {
             }, AddrUtil.getAddresses(server2));
 
         } catch (IOException e) {
-            log.error("DefaultConnectionFactory memcache error:", e);
+            logger.error("DefaultConnectionFactory memcache error:", e);
         }
         // 使用Utf-8编码
         SerializingTranscoder x1 = (SerializingTranscoder) mc1.getTranscoder();
@@ -223,15 +219,13 @@ public class MemCacheServiceImpl implements MemCacheService {
             for (int i = 0; i < retry; i++) {
                 result = _get(key);
                 if (result == null) {
-                    // log.info("get info from cache failed begin to retry " +
-                    // i);
-                } else {
-                    break;
+                    logger.debug("get info from cache failed begin to retry " + (i + 1));
+                } else { break;
                 }
             }
             if (result == null) {
-                // log.info("[FAIL] completely failed when getting info from cache after "
-                // + retry + " times");
+                logger.debug("[FAIL] completely failed when getting info from cache after "
+                        + retry + " times");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -247,7 +241,7 @@ public class MemCacheServiceImpl implements MemCacheService {
      */
     private Object _get(String key) {
         // TODO Auto-generated method stub
-        // log.info("[ACCESS] begin to get info from cache...");
+        // logger.debug("[ACCESS] begin to get info from cache...");
         Object myObj = null;
         try {
             Future<Object> f = mc1.asyncGet(key);
@@ -283,10 +277,10 @@ public class MemCacheServiceImpl implements MemCacheService {
             e.printStackTrace();
         }
         if (myObj != null) {
-            // log.info("MemCacheServiceImpl._get,key=" + key + ",object="
+            // logger.debug("MemCacheServiceImpl._get,key=" + key + ",object="
             // + myObj.getClass());
         } else {
-            // log.info("MemCacheServiceImpl._get,key=" + key + ",object=null");
+            // logger.debug("MemCacheServiceImpl._get,key=" + key + ",object=null");
         }
         return myObj;
 
@@ -298,7 +292,7 @@ public class MemCacheServiceImpl implements MemCacheService {
     @Override
     public Map<String, Object> getBulk(Set<String> keys) {
         // TODO Auto-generated method stub
-        log.info("[ACCESS]begin to get info from cache in bulk...");
+        logger.debug("[ACCESS]begin to get info from cache in bulk...");
         Map<String, Object> ret = null;
 
         try {
@@ -310,16 +304,16 @@ public class MemCacheServiceImpl implements MemCacheService {
                 // This
                 // is not strictly necessary, but it'll save some work on the
                 // server.
-                log.info("[FAIL]time out when getting objects from cache server1...");
+                logger.debug("[FAIL]time out when getting objects from cache server1...");
                 f.cancel(false);
                 // Do other timeout related stuff
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
-                log.info("[FAIL]thread been interrupted while waiting when getting object from cache server1...");
+                logger.debug("[FAIL]thread been interrupted while waiting when getting object from cache server1...");
                 f.cancel(false);
             } catch (ExecutionException e) {
                 // TODO Auto-generated catch block
-                log.info("[FAIL]exception when getting object from cache server1...");
+                logger.debug("[FAIL]exception when getting object from cache server1...");
                 f.cancel(false);
             }
 
@@ -332,29 +326,29 @@ public class MemCacheServiceImpl implements MemCacheService {
                     // operation. This
                     // is not strictly necessary, but it'll save some work on
                     // the server.
-                    log.info("[FAIL]time out when getting objects from cache server2...");
+                    logger.debug("[FAIL]time out when getting objects from cache server2...");
                     f2.cancel(false);
                     // Do other timeout related stuff
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
-                    log.info("[FAIL]thread been interrupted while waiting when getting object from cache server2...");
+                    logger.debug("[FAIL]thread been interrupted while waiting when getting object from cache server2...");
                     f2.cancel(false);
                 } catch (ExecutionException e) {
                     // TODO Auto-generated catch block
-                    log.info("[FAIL]exception when getting object from cache server2...");
+                    logger.debug("[FAIL]exception when getting object from cache server2...");
                     f2.cancel(false);
                 }
             }
         } catch (Exception e) {
-            log.error(
-                    "[ERROR]other exception when getting objects from fengchao cache...",
+            logger.error(
+                    "[ERROR]other exception when getting objects from voo@163.com cache...",
                     e);
         }
 
         if (ret != null) {
             for (String key : keys) {
                 if (ret.get(key) != null) {
-                    log.info("[GET]SHOOTED" + "\tKey=" + key + "\tValue="
+                    logger.debug("[GET]SHOOTED" + "\tKey=" + key + "\tValue="
                             + ret.get(key).toString());
                 }
             }
@@ -365,7 +359,7 @@ public class MemCacheServiceImpl implements MemCacheService {
 
     /**
      * 存入一个对象(含重试机制)
-     * 
+     *
      * @param key
      * @param value
      * @return piggie 2009-10-16 version 2.2.1
@@ -376,13 +370,13 @@ public class MemCacheServiceImpl implements MemCacheService {
         for (int i = 0; i < retry; i++) {
             result = _set(key, value);
             if (!result) {
-                log.info("set info into cache failed begin to retry " + i);
+                logger.debug("set info into cache failed begin to retry " + i);
             } else {
                 break;
             }
         }
         if (!result) {
-            log.error("[FAIL] completely failed when setting info into cache after "
+            logger.error("[FAIL] completely failed when setting info into cache after "
                     + retry + " times");
         }
         return result;
@@ -403,10 +397,10 @@ public class MemCacheServiceImpl implements MemCacheService {
             ret = fs1 || fs2;
 
             if (!fs1) {
-                log.info("[FAIL]CACHE SET FAIL:server1 set failed: " + "Key=" + key
+                logger.debug("[FAIL]CACHE SET FAIL:server1 set failed: " + "Key=" + key
                         + "\tValue=" + value.toString());
             } else if (!fs2) {
-                log.info("[FAIL]CACHE SET FAIL:server2 set failed: " + "Key=" + key
+                logger.debug("[FAIL]CACHE SET FAIL:server2 set failed: " + "Key=" + key
                         + "\tValue=" + value.toString());
             }
         } catch (TimeoutException e) {
@@ -414,36 +408,36 @@ public class MemCacheServiceImpl implements MemCacheService {
             // operation. This
             // is not strictly necessary, but it'll save some work on
             // the server.
-            log.info("[FAIL]time out when getting objects from cache server2...");
+            logger.debug("[FAIL]time out when getting objects from cache server2...");
             f.cancel(false);
             f2.cancel(false);
             // Do other timeout related stuff
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
-            log.error(
-                    "[ERROR]exception when setting fengchao cache - thread been interrupted...",
+            logger.error(
+                    "[ERROR]exception when setting voo@163.com cache - thread been interrupted...",
                     e);
             f.cancel(false);
             f2.cancel(false);
         } catch (ExecutionException e) {
             // TODO Auto-generated catch block
-            log.error(
-                    "[ERROR]exception when setting fengchao cache - exception when getting status...",
+            logger.error(
+                    "[ERROR]exception when setting voo@163.com cache - exception when getting status...",
                     e);
             f.cancel(false);
             f2.cancel(false);
         } catch (Exception e) {
-            log.error(
-                    "[ERROR]exception when setting fengchao cache - other exceptions...",
+            logger.error(
+                    "[ERROR]exception when setting voo@163.com cache - other exceptions...",
                     e);
             f.cancel(false);
             f2.cancel(false);
         }
 
         if (value != null) {
-            log.info("MemCacheServiceImpl.set,key=" + key + ",value=" + value.getClass());
+            logger.debug("MemCacheServiceImpl.set,key=" + key + ",value=" + value.getClass());
         } else {
-            log.info("MemCacheServiceImpl.set,key=" + key + ",value=null");
+            logger.debug("MemCacheServiceImpl.set,key=" + key + ",value=null");
         }
         return ret;
 
@@ -453,7 +447,7 @@ public class MemCacheServiceImpl implements MemCacheService {
      * <p>
      * 移除一个对象
      * </p>
-     * 
+     *
      * @see
      * @param key
      * @param value
@@ -478,36 +472,34 @@ public class MemCacheServiceImpl implements MemCacheService {
             // operation. This
             // is not strictly necessary, but it'll save some work on
             // the server.
-            log.info("[FAIL]time out when getting objects from cache server2...");
+            logger.debug("[FAIL]time out when getting objects from cache server2...");
             f.cancel(false);
             f2.cancel(false);
             // Do other timeout related stuff
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            log.error(
-                    "[ERROR]exception when deleting fengchao cache - thread been interrupted...",
+            logger.error(
+                    "[ERROR]exception when deleting voo@163.com cache - thread been interrupted...",
                     e);
             f.cancel(false);
             f2.cancel(false);
             ret = false;
         } catch (ExecutionException e) {
-            // TODO Auto-generated catch block
-            log.error(
-                    "[ERROR]exception when deleting fengchao cache - exception when getting status...",
+            logger.error(
+                    "[ERROR]exception when deleting voo@163.com cache - exception when getting status...",
                     e);
             f.cancel(false);
             f2.cancel(false);
             ret = false;
         } catch (Exception e) {
-            log.error(
-                    "[ERROR]exception when deleting fengchao cache - other exceptions...",
+            logger.error(
+                    "[ERROR]exception when deleting voo@163.com cache - other exceptions...",
                     e);
             f.cancel(false);
             f2.cancel(false);
             ret = false;
         }
 
-        log.info("[REMOVE]" + ret + "\tKey=" + key);
+        logger.debug("[REMOVE]" + ret + "\tKey=" + key);
 
         return ret; // 如果配了相同的，即使 remove成功
         // ，也会返回false，因此此返回值有意义仅当配置两台不同memcached服务器
@@ -530,22 +522,22 @@ public class MemCacheServiceImpl implements MemCacheService {
             ret = fs1 || fs2;
 
             if (!fs1) {
-                log.info("[FAIL]CACHE SET FAIL:server1 set failed: " + "Key=" + key
+                logger.debug("[FAIL]CACHE SET FAIL:server1 set failed: " + "Key=" + key
                         + ",Value=" + value.toString());
             } else if (!fs2) {
-                log.info("[FAIL]CACHE SET FAIL:server2 set failed: " + "Key=" + key
+                logger.debug("[FAIL]CACHE SET FAIL:server2 set failed: " + "Key=" + key
                         + ",Value=" + value.toString());
             }
         } catch (Exception e) {
             if (!"LOGIN_IP".equalsIgnoreCase(key)) {
-                log.info("MemCacheServiceImpl.set,key=" + key + ",value=" + value
+                logger.debug("MemCacheServiceImpl.set,key=" + key + ",value=" + value
                         + ",Exception");
             }
             e.printStackTrace();
             f.cancel(false);
             f2.cancel(false);
         }
-        log.info("MemCacheServiceImpl.set,key=" + key + ",value=" + value.getClass());
+        logger.debug("MemCacheServiceImpl.set,key=" + key + ",value=" + value.getClass());
         return ret;
     }
     /**
@@ -558,4 +550,40 @@ public class MemCacheServiceImpl implements MemCacheService {
         }
         return mc2;
     }
+
+    /**
+     * 获取值，并更新时间
+     * @param key
+     * @param exp
+     * @return
+     */
+    public Object getAndTouch(String key, int exp) {
+        Object result = null;
+        try {
+            //mc1
+            CASValue casValue=mc1.getAndTouch(key,exp);
+            if(casValue!=null){
+                result=casValue.getValue();
+            }
+            if (result == null) {
+                casValue=mc2.getAndTouch(key,exp);
+                if(casValue!=null){
+                    result=casValue.getValue();
+                }
+            }
+            if (result == null) {
+                logger.debug("[FAIL] completely failed when getAndTuch  from cache after "
+                        + retry + " times");
+            }
+        } catch (Exception ex) {
+            logger.error("[FAIL] completely failed when getAndTuch  from cache after "
+                    ,ex);
+        }
+        return result;
+
+    }
+
+
+
+
 }

@@ -61,4 +61,13 @@ public interface MemCacheService {
      * @return
      */
     MemcachedClient getMemcachedClient();
+
+    /**
+     * 获取值，并更新时间
+     * @param key
+     * @param exp
+     * @return
+     */
+    public Object getAndTouch(String key, int exp);
+
 }

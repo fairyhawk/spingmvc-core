@@ -128,4 +128,16 @@ public class MemCache {
         return memCacheService.getMemcachedClient();
     }
 
+    /**
+     * 获取值，并更新时间
+     * @param key
+     * @param exp
+     * @return
+     */
+    public Object getAndTouch(String key, int exp){
+        return memCacheService.getAndTouch(key,exp);
+    }
+
+
+
 }
